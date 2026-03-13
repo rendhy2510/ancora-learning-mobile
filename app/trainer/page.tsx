@@ -1,0 +1,125 @@
+"use client";
+
+import React from "react";
+import Sidebar from "@/components/layout/Sidebar";
+import Header from "@/components/layout/Header";
+import TrainerManagementTable from "@/components/employee-training/TrainerManagementTable";
+import TrainerScheduleTable from "@/components/employee-training/TrainerScheduleTable";
+import { motion, AnimatePresence } from "framer-motion";
+import { Skeleton, Card } from "@heroui/react";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring" as const,
+      stiffness: 100,
+      damping: 15,
+    },
+  },
+};
+
+const TrainerSkeleton = () => (
+  <div className="space-y-6">
+    {[...Array(2)].map((_, i) => (
+      <Card
+        key={i}
+        className="border border-gray-100 dark:border-dark-border rounded-2xl bg-white dark:bg-dark-surface overflow-hidden shadow-none"
+      >
+        <div className="p-6 border-b border-gray-50 dark:border-dark-border/50 flex justify-between items-center">
+          <Skeleton
+            className="h-7 w-48 rounded-lg"
+            classNames={{ base: "dark:bg-dark-border/30" }}
+          />
+          <div className="flex gap-2">
+            <Skeleton
+              className="h-8 w-24 rounded-lg"
+              classNames={{ base: "dark:bg-dark-border/30" }}
+            />
+            <Skeleton
+              className="h-8 w-24 rounded-lg"
+              classNames={{ base: "dark:bg-dark-border/30" }}
+            />
+          </div>
+        </div>
+        <div className="p-6 space-y-4">
+          {[...Array(4)].map((_, j) => (
+            <Skeleton
+              key={j}
+              className="h-14 w-full rounded-xl"
+              classNames={{ base: "dark:bg-dark-border/30" }}
+            />
+          ))}
+        </div>
+      </Card>
+    ))}
+  </div>
+);
+
+export default function TrainerPage() {
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-bg transition-colors">
+      <Sidebar />
+      <div className="ml-0 lg:ml-[245px] transition-all duration-300">
+        <Header
+          userName="Ronald Richards"
+          userEmail="ronald@gmail.com"
+          userAvatar="https://i.pravatar.cc/150?u=ronald"
+          pageTitle="Trainer"
+          pageSubtitle="Welcome Back, Ronald!"
+        />
+
+        <main className="pt-[100px] lg:pt-24 px-4 lg:px-8 pb-8 transition-all duration-300">
+          <div className="bg-white dark:bg-dark-surface rounded-2xl p-4 lg:p-8 shadow-sm border border-gray-100 dark:border-dark-border min-h-[500px]">
+            <AnimatePresence mode="wait">
+              {isLoading ? (
+                <motion.div
+                  key="skeleton"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <TrainerSkeleton />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="content"
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="space-y-6"
+                >
+                  <motion.div variants={itemVariants}>
+                    <TrainerManagementTable />
+                  </motion.div>
+                  <motion.div variants={itemVariants}>
+                    <TrainerScheduleTable />
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}
