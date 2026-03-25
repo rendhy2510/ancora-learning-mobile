@@ -77,7 +77,7 @@ const MandatoryEventsTable = () => {
               variant="light"
               size="sm"
               onPress={onOpen}
-              className="text-[#243C7C] font-semibold border border-divider hover:bg-gray-50 flex items-center gap-1.5 h-8 px-3 dark:text-gray-100"
+              className="text-[#243C7C] font-medium border border-divider hover:bg-gray-50 flex items-center gap-1.5 h-8 px-3 dark:text-gray-100"
             >
               <svg
                 width="14"
@@ -97,7 +97,7 @@ const MandatoryEventsTable = () => {
             <Button
               variant="light"
               size="sm"
-              className="text-[#243C7C] font-semibold border border-divider hover:bg-gray-50 flex items-center gap-1.5 h-8 px-3 dark:text-gray-100"
+              className="text-[#243C7C] font-medium border border-divider hover:bg-gray-50 flex items-center gap-1.5 h-8 px-3 dark:text-gray-100"
             >
               <svg
                 width="16"
